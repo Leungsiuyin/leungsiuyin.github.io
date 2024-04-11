@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +26,7 @@
         window.onload = firstStartUp;
         function firstStartUp() {
             resetGame()
-            
+
             best = window.localStorage.getItem('best') || 0
             bulidMap()
             window.addEventListener('keydown', event => {
@@ -54,7 +55,7 @@
                         console.log('Left')
                         move(map, 'Left')
                     }
-                } else{
+                } else {
                     if (deltaY > 0) {
                         console.log('Down')
                         move(map, 'Down')
@@ -70,7 +71,7 @@
             document.querySelector("#score").innerHTML = score;
             document.querySelector("#best").innerHTML = best;
             const html = document.querySelector("#gameZone")
-            const boxWidth = html.clientWidth 
+            const boxWidth = html.clientWidth
             const boxSize = Math.floor(boxWidth / mapSize)
             let str = ``
             map.forEach(row => {
@@ -95,12 +96,12 @@
             return list
         }
         function addRandom() {
-           const list = getZeroList()
-           if (list.length == 0) return false
-           const index = Math.floor(Math.random() * list.length)
-           const [tX, tY] = list[index];
-           map[tY][tX] = Math.random() < 0.5 ? 4 : 2
-           return true
+            const list = getZeroList()
+            if (list.length == 0) return false
+            const index = Math.floor(Math.random() * list.length)
+            const [tX, tY] = list[index];
+            map[tY][tX] = Math.random() < 0.5 ? 4 : 2
+            return true
         }
         function gameEnd() {
             alert('gameEnd')
@@ -111,7 +112,7 @@
             for (let x = 0; x < mapSize; x++) {
                 let row = []
                 for (let y = 0; y < mapSize; y++) {
-                    row.push(0)                    
+                    row.push(0)
                 }
                 map.push(row)
             }
@@ -138,7 +139,7 @@
             const rows = map.length;
             const columns = map[0].length;
             let hasChange = false;
-            function _getNext(x,y) {
+            function _getNext(x, y) {
                 switch (direction) {
                     case 'Up':
                         return [x, y + 1]
@@ -168,13 +169,13 @@
                 if (!_inMap(x, y)) return null;
                 const value = map[y][x];
                 const next = _getNextNonZero(x, y)
-                if(!next) return null;
+                if (!next) return null;
                 const [nextX, nextY, nextV] = next;
                 if (value === 0) {
                     map[y][x] = nextV;
                     map[nextY][nextX] = 0;
                     hasChange = true
-                    _calc(x,y)
+                    _calc(x, y)
                 } else if (value === nextV) {
                     map[y][x] += nextV;
                     map[nextY][nextX] = 0;
@@ -215,18 +216,45 @@
         function setscore(value) {
             score = value;
             if (score > best) {
-                best= score;
+                best = score;
                 window.localStorage.setItem('best', best)
             }
 
         }
     </script>
     <style>
-        * {padding: 0;margin: 0;border: 0 none rgba(0, 0, 0, 0);}
-        body{background-color: #faf8ef;padding: 10px;overflow: hidden;}
-        .container {width: 100%;color: #428bca;}
-        .row {width: 100%;display: flex;align-items: center;justify-content: space-between;}
-        .row>* {position: relative;min-height: 1px;display: block;text-align: center;flex: 1;}
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0 none rgba(0, 0, 0, 0);
+        }
+
+        body {
+            background-color: #faf8ef;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            color: #428bca;
+        }
+
+        .row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .row>* {
+            position: relative;
+            min-height: 1px;
+            display: block;
+            text-align: center;
+            flex: 1;
+        }
+
         #gameZone {
             box-sizing: border-box;
             background: #682f00;
@@ -236,59 +264,73 @@
             margin-top: 20px;
             max-width: 600px;
         }
+
         .block {
             box-sizing: border-box;
             margin: 6px;
             border-radius: 3px;
             font-size: 2em;
         }
+
         .color0 {
             background-color: #f0f0f0;
         }
+
         .color2 {
             background-color: #f5f5f5;
             color: #333;
         }
+
         .color4 {
             background-color: #ccc;
             color: #333;
         }
+
         .color8 {
             background-color: #a9a9a9;
             color: #333;
         }
+
         .color16 {
             background-color: #8b4513;
             color: #333;
         }
+
         .color32 {
             background-color: #ff8c00;
             color: #333;
         }
+
         .color64 {
             background-color: #ffa500;
             color: #333;
         }
+
         .color128 {
             background-color: #ffd700;
             color: #333;
         }
+
         .color256 {
             background-color: #008000;
             color: #333;
         }
+
         .color512 {
             background-color: #006400;
             color: #333;
         }
+
         .color1024 {
             background-color: #00ff00;
             color: #333;
         }
+
         .color2048 {
             background-color: #00ff7f;
             color: #333;
         }
+
         .score {
             background-color: #bbada0;
             color: #eee4da;
@@ -302,11 +344,16 @@
             margin: 3px;
             font-weight: 600;
         }
+
         .score .number {
             color: #fff;
             display: block;
         }
-        .garp { flex-grow: 1;}
+
+        .garp {
+            flex-grow: 1;
+        }
+
         #newGame {
             font-weight: 600;
             background-color: #8f7a66;
@@ -320,6 +367,7 @@
         }
     </style>
 </head>
+
 <body>
     <div id="context">
         <div class="container">
@@ -328,11 +376,12 @@
         <div style="display: flex;align-items: center;">
             <div class="score">最高分<span class="number" id="best"></span></div>
             <div class="score">得分<span class="number" id="score"></span></div>
-            
+
             <div class="garp"></div>
             <div id="newGame" onclick="resetGame()">新游戏</div>
         </div>
         <div id="gameZone"></div>
     </div>
 </body>
+
 </html>
